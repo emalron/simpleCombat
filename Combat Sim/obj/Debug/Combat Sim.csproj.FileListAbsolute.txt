@@ -1,0 +1,9 @@
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\bin\Debug\Combat Sim.exe.config
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\bin\Debug\Combat Sim.exe
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\bin\Debug\Combat Sim.pdb
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csprojResolveAssemblyReference.cache
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat_Sim.Form1.resources
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat_Sim.Properties.Resources.resources
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.GenerateResource.Cache
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.exe
+c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.pdb
