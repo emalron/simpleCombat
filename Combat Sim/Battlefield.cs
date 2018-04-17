@@ -11,13 +11,16 @@ namespace Combat_Sim
         public List<Actor> sides;
         public List<int> historyReds;
         public List<int> historyBlues;
-        public string news;
+        public List<string> news;
+        public int turn;
 
         public Battlefield(List<Actor> reds, List<Actor> blues)
         {
             sides = new List<Actor>();
 
-            this.news = "";
+            this.news = new List<string>();
+
+            this.turn = 0;
 
             reds.ForEach(x =>
             {
@@ -60,6 +63,7 @@ namespace Combat_Sim
                    y.update();
                });
            });
+            this.turn++;
         }
 
         public void census()

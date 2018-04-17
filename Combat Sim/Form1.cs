@@ -83,11 +83,31 @@ namespace Combat_Sim
                         }
                     }
                 }
-
-                textBox1.Text = field.news;
-
+                news();
             }
        }
+
+        private void news()
+        {
+            richTextBox1.Font = new Font("Consolas", 10f, FontStyle.Regular);
+
+
+            foreach(string line in field.news)
+            {
+                var checker = line.Split(new [] { ' ' });
+                Console.Write(line[0]);
+               if(checker[1][0].Equals('R'))
+                {
+                    richTextBox1.SelectionColor = Color.Red;
+                    richTextBox1.AppendText(line);
+                } 
+               else if(checker[1][0].Equals('B'))
+                {
+                    richTextBox1.SelectionColor = Color.Blue;
+                    richTextBox1.AppendText(line);
+                }
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
