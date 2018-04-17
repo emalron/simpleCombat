@@ -48,8 +48,8 @@ namespace Combat_Sim
                 chart1.Series.Clear();
                 chart1.Series.Add("Reds");
                 chart1.Series.Add("Blues");
-                chart1.Series[0].ChartType = SeriesChartType.Line;
-                chart1.Series[1].ChartType = SeriesChartType.Line;
+                chart1.Series[0].ChartType = SeriesChartType.StepLine;
+                chart1.Series[1].ChartType = SeriesChartType.StepLine;
                 chart1.Series[0].Color = Color.Red;
                 chart1.Series[1].Color = Color.Blue;
                 chart1.Series[0].BorderWidth = 2;
@@ -136,6 +136,8 @@ namespace Combat_Sim
             }
 
             field = new Battlefield(Ateam, Bteam);
+            field.news.Clear();
+            richTextBox1.Text = "";
         }
     }
 }
