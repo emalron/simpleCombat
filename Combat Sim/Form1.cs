@@ -62,10 +62,8 @@ namespace Combat_Sim
                     field.collision();
                     field.update();
 
-                    
-
-                    chart1.Series[0].Points.AddY(field.historyReds.Last());
-                    chart1.Series[1].Points.AddY(field.historyBlues.Last());
+                    chart1.Series[0].Points.AddXY(field.turn, field.historyReds.Last());
+                    chart1.Series[1].Points.AddXY(field.turn, field.historyBlues.Last());
 
                     if (field.historyBlues.Last() == 0 || field.historyReds.Last() == 0)
                     {

@@ -55,7 +55,7 @@ namespace Combat_Sim
                     this.curHP = 0;
                     this.State = (int)LifeState.Dead;
 
-                    this.owner.field.news.Add("[" + this.owner.field.turn +"] " + this.owner.name + " is dead\r\n");
+                    this.owner.field.news.Add("[" + (this.owner.field.turn + 1).ToString() +"] " + this.owner.name + " is dead\r\n");
                 }
 
             }
