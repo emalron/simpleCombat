@@ -54,6 +54,8 @@ namespace Combat_Sim
                 chart1.Series[1].Color = Color.Blue;
                 chart1.Series[0].BorderWidth = 2;
                 chart1.Series[1].BorderWidth = 2;
+                chart1.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineColor = Color.Gainsboro;
+                chart1.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.Gainsboro;
 
 
                 while (State == (int)WarState.Engage)
