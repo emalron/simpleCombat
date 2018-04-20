@@ -82,7 +82,7 @@ namespace Combat_Sim
 
             foreach(Actor j in weeklydeads)
             {
-                string turn = this.field.turn.ToString();
+                string turn = (this.field.turn).ToString();
                 string name = j.name;
                 string msg = "[" + turn + "] " + name + " is dead\r\n";
 
