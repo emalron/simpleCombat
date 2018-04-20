@@ -9,17 +9,11 @@ namespace Combat_Sim
     public class Battlefield
     {
         public List<Actor> sides;
-        public List<int> historyReds;
-        public List<int> historyBlues;
-        public List<string> news;
         public int turn;
 
         public Battlefield(List<Actor> reds, List<Actor> blues)
         {
             sides = new List<Actor>();
-
-            this.news = new List<string>();
-
             this.turn = 0;
 
             reds.ForEach(x =>
@@ -37,9 +31,6 @@ namespace Combat_Sim
                 this.sides.Add(x);
                 x.setBattlefield(this);
             });
-
-            historyBlues = new List<int>();
-            historyReds = new List<int>();
         }
 
         public void collision()
@@ -64,34 +55,6 @@ namespace Combat_Sim
                });
            });
             this.turn++;
-        }
-
-        public void census()
-        {
-            int numReds = 0;
-            int numBlues = 0;
-
-            foreach(Actor actor in this.sides)
-            {
-                var fighter = from role in actor.roleList
-                              where role is Fighter
-                              select role as Fighter;
-                
-                if(fighter.First().State == (int)LifeState.Live)
-                {
-                    if(actor.sideID == (int)Side.Reds)
-                    {
-                        numReds++;
-                    }
-                    else
-                    {
-                        numBlues++;
-                    }
-                }
-            }
-            
-            historyReds.Add(numReds);
-            historyBlues.Add(numBlues);
         }
     }
 }

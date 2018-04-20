@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Combat_Sim
 {
 
-    public class Actor
+    public class Actor : ICloneable
     {
         public string name;
         public List<Iai> aiList;
@@ -45,6 +45,28 @@ namespace Combat_Sim
             {
                 aiList[0].action();
             }
+        }
+
+        public Object findRole<T>()
+        {
+            foreach(var o in this.roleList)
+            {
+                if(o is T)
+                {
+                    return o;
+                }
+            }
+            return null;
+        }
+
+        public object Clone()
+        {
+            Actor actor = new Actor(this.name);
+            actor.aiList = new List<Iai>(this.aiList);
+            actor.roleList = new List<IRole>(this.roleList);
+            actor.field = this.field;
+
+            return actor;
         }
     }
 }

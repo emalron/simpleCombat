@@ -34,10 +34,32 @@ namespace Combat_Sim
     public partial class Form1 : Form
     {
         Battlefield field;
+        News news;
 
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void chartInit()
+        {
+            chart1.Series.Clear();
+            chart1.Series.Add("Reds");
+            chart1.Series.Add("Blues");
+            chart1.Series[0].ChartType = SeriesChartType.StepLine;
+            chart1.Series[1].ChartType = SeriesChartType.StepLine;
+            chart1.Series[0].Color = Color.Red;
+            chart1.Series[1].Color = Color.Blue;
+            chart1.Series[0].BorderWidth = 2;
+            chart1.Series[1].BorderWidth = 2;
+            chart1.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineColor = Color.Gainsboro;
+            chart1.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.Gainsboro;
+        }
+
+        private void chartInput()
+        {
+            chart1.Series[0].Points.AddXY(field.turn, news.histRedSurvived.Last());
+            chart1.Series[1].Points.AddXY(field.turn, news.histBlueSurvived.Last());
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -45,35 +67,24 @@ namespace Combat_Sim
             if(field != null)
             {
                 int State = (int)WarState.Engage;
-                chart1.Series.Clear();
-                chart1.Series.Add("Reds");
-                chart1.Series.Add("Blues");
-                chart1.Series[0].ChartType = SeriesChartType.StepLine;
-                chart1.Series[1].ChartType = SeriesChartType.StepLine;
-                chart1.Series[0].Color = Color.Red;
-                chart1.Series[1].Color = Color.Blue;
-                chart1.Series[0].BorderWidth = 2;
-                chart1.Series[1].BorderWidth = 2;
-                chart1.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineColor = Color.Gainsboro;
-                chart1.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.Gainsboro;
 
+                chartInit();
 
                 while (State == (int)WarState.Engage)
                 {
-                    field.census();
                     field.collision();
                     field.update();
+                    news.census();
 
-                    chart1.Series[0].Points.AddXY(field.turn, field.historyReds.Last());
-                    chart1.Series[1].Points.AddXY(field.turn, field.historyBlues.Last());
+                    chartInput();
 
-                    if (field.historyBlues.Last() == 0 || field.historyReds.Last() == 0)
+                    if (news.histBlueSurvived.Last() == 0 || news.histRedSurvived.Last() == 0)
                     {
-                        if(field.historyReds.Last() > field.historyBlues.Last())
+                        if(news.histRedSurvived.Last() > news.histBlueSurvived.Last())
                         {
                             State = (int)WarState.Win;
                         }
-                        else if (field.historyReds.Last() < field.historyBlues.Last())
+                        else if (news.histRedSurvived.Last() < news.histBlueSurvived.Last())
                         {
                             State = (int)WarState.Lose;
                         }
@@ -83,16 +94,17 @@ namespace Combat_Sim
                         }
                     }
                 }
-                news();
+                
+                broadcast();
             }
        }
 
-        private void news()
+        private void broadcast()
         {
             richTextBox1.Font = new Font("Consolas", 10f, FontStyle.Regular);
 
 
-            foreach(string line in field.news)
+            foreach(string line in news.history)
             {
                 var checker = line.Split(new [] { ' ' });
                 Console.Write(line[0]);
@@ -138,7 +150,11 @@ namespace Combat_Sim
             }
 
             field = new Battlefield(Ateam, Bteam);
-            field.news.Clear();
+
+            news = new News(field);
+
+            news.census();
+
             richTextBox1.Text = "";
         }
     }

@@ -8,7 +8,7 @@ namespace Combat_Sim
 {
     public class Fighter : IRole
     {
-        private Actor owner;
+        public Actor owner;
         public int State;
         private float HP;
         public float curHP;
@@ -54,8 +54,6 @@ namespace Combat_Sim
                 {
                     this.curHP = 0;
                     this.State = (int)LifeState.Dead;
-
-                    this.owner.field.news.Add("[" + (this.owner.field.turn + 1).ToString() +"] " + this.owner.name + " is dead\r\n");
                 }
 
             }
