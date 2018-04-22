@@ -8,6 +8,14 @@ namespace Combat_Sim
 {
     public class News
     {
+        public struct History
+        {
+            public int turn;
+            public string type;
+            public string actor;
+            public string news;
+        }
+
         private List<string> survivors;
         public List<string> history;
         public List<int> histRedSurvived;
