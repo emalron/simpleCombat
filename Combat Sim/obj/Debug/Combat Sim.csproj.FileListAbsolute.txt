@@ -7,3 +7,13 @@ c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj
 c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.GenerateResource.Cache
 c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.exe
 c:\users\emalron\documents\visual studio 2017\Projects\Combat Sim\Combat Sim\obj\Debug\Combat Sim.pdb
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\bin\Debug\Combat Sim.exe.config
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\bin\Debug\Combat Sim.exe
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\bin\Debug\Combat Sim.pdb
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csprojResolveAssemblyReference.cache
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat_Sim.Form1.resources
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat_Sim.Properties.Resources.resources
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.GenerateResource.cache
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.CoreCompileInputs.cache
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.exe
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.pdb

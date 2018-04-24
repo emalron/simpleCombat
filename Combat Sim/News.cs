@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace Combat_Sim
 {
-    public class News
+    public class News : IObservable
     {
         public struct History
         {
             public int turn;
-            public string type;
-            public string actor;
+            public EVENT type;
+            public Side side;
+            public string name;
             public string news;
         }
 
         private List<string> survivors;
-        public List<string> history;
-        public List<int> histRedSurvived;
-        public List<int> histBlueSurvived;
+        public List<History> history;
+        public int histRedSurvived;
+        public int histBlueSurvived;
 
         private Battlefield field;
 
@@ -29,72 +30,101 @@ namespace Combat_Sim
         {
             this.field = field;
             this.survivors = new List<string>();
-            this.history = new List<string>();
-            this.histBlueSurvived = new List<int>();
-            this.histRedSurvived = new List<int>();
+            this.history = new List<History>();
 
+            foreach(var o in this.field.sides)
+            {
+                if(o.sideID == (int)Side.Reds)
+                {
+                    this.histRedSurvived++;
+                }
+                else if(o.sideID == (int)Side.Blues)
+                {
+                    this.histBlueSurvived++;
+                }
+            }
+            
             var survs = from unit in this.field.sides
                         where (unit.findRole<Fighter>() as Fighter).State == (int)LifeState.Live
                         select unit.name;
 
             this.survivors = survs.ToList();
         }
-
-        public void census()
+        
+        public void onNotify(EVENT e, Object o)
         {
-            var people = from unit in this.field.sides
-                         where (unit.findRole<Fighter>() as Fighter).State == (int)LifeState.Dead
-                         select unit;
-
-            List<Actor> week = new List<Actor>(people.ToList());
-            List<Actor> weeklydeads = new List<Actor>();
-            List<int> killed = new List<int>();
-
-            foreach(string s in this.survivors)
+            switch(e)
             {
-                foreach(Actor j in week)
+                case EVENT.DEAD:
+                    onEventDead(o);
+                    break;
+                case EVENT.ATTACK:
+                    break;
+                case EVENT.MOVE:
+                    break;
+            }
+        }
+
+        public void onEventDead(Object o)
+        {
+            if(o is Actor)
+            {
+                Actor a_ = o as Actor;
+                history.Add(new History
                 {
-                    if (j.name == s)
-                    {
-                        weeklydeads.Add(j);
-                        killed.Add(this.survivors.IndexOf(s));
-                    }
+                    turn = this.field.turn,
+                    type = EVENT.DEAD,
+                    name = a_.name,
+                    side = (Side)a_.sideID,
+                    news = "[" + (this.field.turn + 1) + "] " + a_.name + " is dead.\r\n",
+                });
+
+                if (a_.sideID == (int)Side.Reds)
+                {
+                    this.histRedSurvived--;
+                }
+                else if (a_.sideID == (int)Side.Blues)
+                {
+                    this.histBlueSurvived--;
                 }
             }
+        }
 
-            foreach(int i in killed)
+        public void onEventAttack(Object o)
+        {
+            if (o is Actor)
             {
-                this.survivors[i] = "killed";
-            }
+                Actor a_ = o as Actor;
+                Basic basic = a_.findAI<Basic>() as Basic;
 
-            int reds = 0;
-            int blues = 0;
-
-            foreach(Actor o in this.field.sides)
-            {
-               if((o.findRole<Fighter>() as Fighter).State == (int)LifeState.Live)
-                {
-                    if(o.sideID == (int)Side.Reds)
+                if (basic.target != null) {
+                    history.Add(new History
                     {
-                        reds++;
-                    }
-                    else
-                    {
-                        blues++;
-                    }
+                        turn = this.field.turn,
+                        type = EVENT.ATTACK,
+                        name = a_.name,
+                        side = (Side)a_.sideID,
+                        news = "[" + (this.field.turn+1) + "] " + a_.name + " attacked " + basic.target.owner.name + "\r\n",
+                    });
                 }
-          }
+            }
+        }
 
-            this.histBlueSurvived.Add(blues);
-            this.histRedSurvived.Add(reds);
-
-            foreach(Actor j in weeklydeads)
+        public void onEventMove(Object o)
+        {
+            if (o is Actor)
             {
-                string turn = (this.field.turn).ToString();
-                string name = j.name;
-                string msg = "[" + turn + "] " + name + " is dead\r\n";
+                Actor a_ = o as Actor;
+                Fighter f_ = a_.findRole<Fighter>() as Fighter;
 
-                this.history.Add(msg);
+                history.Add(new History
+                {
+                    turn = this.field.turn,
+                    type = EVENT.MOVE,
+                    name = a_.name,
+                    side = (Side)a_.sideID,
+                    news = "[" + (this.field.turn+1) + "] " + a_.name + " moved.\r\n",
+                });
             }
         }
     }

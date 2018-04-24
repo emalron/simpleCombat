@@ -11,21 +11,14 @@ namespace Combat_Sim
         private Actor owner;
         private Fighter fighter;
         private List<Actor> enemies;
+        public Fighter target;
 
         public Basic()
         {
             enemies = new List<Actor>();
             this.owner = null;
             this.fighter = null;
-        }
-
-        private Fighter findFighter(Actor actor)
-        {
-            var xrole = from role in actor.roleList
-                        where role is Fighter
-                        select role as Fighter;
-
-            return xrole.First();
+            this.target = null;
         }
 
         public void setOwner(Actor owner)
@@ -48,7 +41,7 @@ namespace Combat_Sim
 
         public void action() {
             if (this.owner != null && this.fighter == null)
-                this.fighter = findFighter(this.owner);
+                this.fighter = this.owner.findRole<Fighter>() as Fighter;
 
             int state_ = this.fighter.State;
 
@@ -58,11 +51,13 @@ namespace Combat_Sim
 
                 foreach(Actor enemy in this.enemies)
                 {
-                    Fighter role_ = findFighter(enemy);
+                    Fighter role_ = enemy.findRole<Fighter>() as Fighter;
 
                     if (role_.curHP > role_.damTaken)
                     {
+                        target = role_;
                         this.fighter.attack(role_);
+                        this.owner.notify(EVENT.ATTACK);
                         break;
                     }
                 }

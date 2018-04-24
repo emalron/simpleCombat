@@ -60,8 +60,8 @@ namespace Combat_Sim
 
         private void chartInput()
         {
-            chart1.Series[0].Points.AddXY(field.turn, news.histRedSurvived.Last());
-            chart1.Series[1].Points.AddXY(field.turn, news.histBlueSurvived.Last());
+            chart1.Series[0].Points.AddXY(field.turn, news.histRedSurvived);
+            chart1.Series[1].Points.AddXY(field.turn, news.histBlueSurvived);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -76,17 +76,16 @@ namespace Combat_Sim
                 {
                     field.collision();
                     field.update();
-                    news.census();
-
+                    
                     chartInput();
 
-                    if (news.histBlueSurvived.Last() == 0 || news.histRedSurvived.Last() == 0)
+                    if (news.histBlueSurvived == 0 || news.histRedSurvived == 0)
                     {
-                        if(news.histRedSurvived.Last() > news.histBlueSurvived.Last())
+                        if(news.histRedSurvived > news.histBlueSurvived)
                         {
                             State = (int)WarState.Win;
                         }
-                        else if (news.histRedSurvived.Last() < news.histBlueSurvived.Last())
+                        else if (news.histRedSurvived < news.histBlueSurvived)
                         {
                             State = (int)WarState.Lose;
                         }
@@ -105,20 +104,24 @@ namespace Combat_Sim
         {
             richTextBox1.Font = new Font("Consolas", 10f, FontStyle.Regular);
 
+            var output = from line in news.history
+                         where line.type == EVENT.DEAD
+                         select line;
 
-            foreach(string line in news.history)
+            output.ToList();
+
+            foreach(var line in output)
             {
-                var checker = line.Split(new [] { ' ' });
-                Console.Write(line[0]);
-               if(checker[1][0].Equals('R'))
+                if(line.side == Side.Reds)
                 {
                     richTextBox1.SelectionColor = Color.Red;
-                    richTextBox1.AppendText(line);
-                } 
-               else if(checker[1][0].Equals('B'))
+                    richTextBox1.AppendText(line.news);
+                }
+
+                if(line.side == Side.Blues)
                 {
                     richTextBox1.SelectionColor = Color.Blue;
-                    richTextBox1.AppendText(line);
+                    richTextBox1.AppendText(line.news);
                 }
             }
         }
@@ -155,7 +158,10 @@ namespace Combat_Sim
 
             news = new News(field);
 
-            news.census();
+            foreach(var o in field.sides)
+            {
+                o.addObserver(news);
+            }
 
             richTextBox1.Text = "";
         }

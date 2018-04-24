@@ -54,6 +54,7 @@ namespace Combat_Sim
                 {
                     this.curHP = 0;
                     this.State = (int)LifeState.Dead;
+                    this.owner.notify(EVENT.DEAD);
                 }
 
             }
