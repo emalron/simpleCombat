@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Combat_Sim
 {
+    enum Mode
+    {
+        MOVE = 0,
+        ATTACK = 1,
+    }
     public struct Stat
     {
         public float HP;
@@ -19,6 +24,7 @@ namespace Combat_Sim
         private List<Actor> enemies;
         public Fighter target;
         public int State;
+        public int mode;
         private float HP;
         public float curHP;
         public float power;
@@ -27,6 +33,7 @@ namespace Combat_Sim
         public float damTaken;
         public float moveRate;
         public float pos;
+        public float newPos;
 
         public Fighter(Stat stat)
         {
@@ -66,18 +73,16 @@ namespace Combat_Sim
             if (this.State == (int)LifeState.Live)
             {
                 search();
-
-                foreach(var enemy in this.enemies)
+                if (enemies.Count != 0)
                 {
-                    var role_ = enemy.findRole<Fighter>() as Fighter;
-
-                    // no overkill check
-                    if(role_.curHP > role_.damTaken)
+                    Fighter target = enemies[0].findRole<Fighter>() as Fighter;
+                    if (moveFowardTo(target) is false)
                     {
-                        this.target = role_;
-                        this.attack(role_);
-                        this.owner.notify(EVENT.ATTACK);
-                        break;
+                        moveTo(target);
+                    }
+                    else
+                    {
+                        attackWho();
                     }
                 }
             }
@@ -102,7 +107,7 @@ namespace Combat_Sim
             float dist_ = Math.Abs(locTarget_ - locMe_);
 
             // Is the distacne smaller than my move rate?
-            if (dist_ < this.moveRate)
+            if (dist_ <= this.moveRate)
             {
                 return true;
             } 
@@ -112,33 +117,64 @@ namespace Combat_Sim
             }
         }
 
+        public void attackWho()
+        {
+            foreach (var enemy in this.enemies)
+            {
+                var role_ = enemy.findRole<Fighter>() as Fighter;
+
+                // no overkill check
+                if (role_.curHP > role_.damTaken)
+                {
+                    this.mode = (int)Mode.ATTACK;
+
+                    this.target = role_;
+                    this.attack(role_);
+                    this.owner.notify(EVENT.ATTACK);
+                    break;
+                }
+            }
+        }
+
         public void moveTo(Fighter target)
         {
             // check if I'm in the target area
             if (this.pos > target.pos)
             {
-                this.pos -= this.moveRate;
+                this.mode = (int)Mode.MOVE;
+
+                this.newPos = this.pos - this.moveRate;
+                this.owner.notify(EVENT.MOVE);
             }
             else
             {
-                this.pos += this.moveRate;
+                this.mode = (int)Mode.MOVE;
+
+                this.newPos = this.pos + this.moveRate;
+                this.owner.notify(EVENT.MOVE);
             }
         }
 
         public void update()
         {
-            if ((LifeState)this.State == LifeState.Live)
+            if (this.mode == (int)Mode.ATTACK)
             {
-                this.curHP -= this.damTaken;
-                this.prevDamTaken = this.damTaken;
-                this.damTaken = 0;
-                if (this.curHP <= 0)
+                if ((LifeState)this.State == LifeState.Live)
                 {
-                    this.curHP = 0;
-                    this.State = (int)LifeState.Dead;
-                    this.owner.notify(EVENT.DEAD);
+                    this.curHP -= this.damTaken;
+                    this.prevDamTaken = this.damTaken;
+                    this.damTaken = 0;
+                    if (this.curHP <= 0)
+                    {
+                        this.curHP = 0;
+                        this.State = (int)LifeState.Dead;
+                        this.owner.notify(EVENT.DEAD);
+                    }
                 }
-
+            }
+            if(this.mode == (int)Mode.MOVE)
+            {
+                this.pos = this.newPos;
             }
         }
     }

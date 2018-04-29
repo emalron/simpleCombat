@@ -74,38 +74,55 @@ namespace Combat_Sim
 
                 while (State == (int)WarState.Engage)
                 {
-                    field.collision();
-                    field.update();
-                    
-                    chartInput();
-
-                    if (news.histBlueSurvived == 0 || news.histRedSurvived == 0)
-                    {
-                        if(news.histRedSurvived > news.histBlueSurvived)
-                        {
-                            State = (int)WarState.Win;
-                        }
-                        else if (news.histRedSurvived < news.histBlueSurvived)
-                        {
-                            State = (int)WarState.Lose;
-                        }
-                        else
-                        {
-                            State = (int)WarState.Parity;
-                        }
-                    }
+                    State = simulate(State);
                 }
+
+                /*
+                for(int i=0; i<10; i++)
+                {
+                    State = simulate(State);
+                }
+                */
+               
                 
                 broadcast();
             }
        }
+
+        int simulate(int state)
+        {
+            int State = state;
+
+            field.collision();
+            field.update();
+
+            chartInput();
+
+            if (news.histBlueSurvived == 0 || news.histRedSurvived == 0)
+            {
+                if (news.histRedSurvived > news.histBlueSurvived)
+                {
+                    State = (int)WarState.Win;
+                }
+                else if (news.histRedSurvived < news.histBlueSurvived)
+                {
+                    State = (int)WarState.Lose;
+                }
+                else
+                {
+                    State = (int)WarState.Parity;
+                }
+            }
+
+            return State;
+        }
 
         private void broadcast()
         {
             richTextBox1.Font = new Font("Consolas", 10f, FontStyle.Regular);
 
             var output = from line in news.history
-                         where line.type == EVENT.DEAD
+                         where line.type == EVENT.DEAD || line.type == EVENT.MOVE
                          select line;
 
             output.ToList();

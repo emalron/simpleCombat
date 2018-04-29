@@ -11,7 +11,7 @@ namespace Combat_Sim
         DEAD = 0,
         ATTACK = 1,
         MOVE = 2,
-    }
+   }
 
     public interface IObservable
     {

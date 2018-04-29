@@ -61,6 +61,7 @@ namespace Combat_Sim
                 case EVENT.ATTACK:
                     break;
                 case EVENT.MOVE:
+                    onEventMove(o);
                     break;
             }
         }
@@ -123,7 +124,7 @@ namespace Combat_Sim
                     type = EVENT.MOVE,
                     name = a_.name,
                     side = (Side)a_.sideID,
-                    news = "[" + (this.field.turn+1) + "] " + a_.name + " moved.\r\n",
+                    news = "[" + (this.field.turn+1) + "] " + a_.name + " moved to " + f_.newPos + "\r\n",
                 });
             }
         }
