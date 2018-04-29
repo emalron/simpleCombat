@@ -137,6 +137,9 @@ namespace Combat_Sim
             int powerRed = (int)numPowerReds.Value;
             int powerBlue = (int)numPowerBlues.Value;
 
+            int pRed = 0;
+            int pBlue = 5;
+
             List<Actor> Ateam = new List<Actor>();
             List<Actor> Bteam = new List<Actor>();
 
@@ -144,14 +147,14 @@ namespace Combat_Sim
             {
                 Ateam.Add(new Actor("Reds #" + (i + 1).ToString()));
                 Ateam[i].addAI(new Basic());
-                Ateam[i].addRole(new Fighter(hpRed, powerRed));
+                Ateam[i].addRole(new Fighter(new Stat { HP = hpRed, power = powerRed, pos=pRed }));
             }
 
             for (var j = 0; j < numB; j++)
             {
                 Bteam.Add(new Actor("Blues #" + (j + 1).ToString()));
                 Bteam[j].addAI(new Basic());
-                Bteam[j].addRole(new Fighter(hpBlues, powerBlue));
+                Bteam[j].addRole(new Fighter(new Stat { HP = hpBlues, power = powerBlue, pos=pBlue }));
             }
 
             field = new Battlefield(Ateam, Bteam);
