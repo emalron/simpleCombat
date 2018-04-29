@@ -37,12 +37,13 @@ namespace Combat_Sim
         {
             sides.ForEach(x =>
             {
-                var xai = from basic in x.aiList
-                          where basic is Basic
-                          select basic as Basic;
+                x.roleList.ForEach(y =>
+                {
+                    y.execute();
+                });
 
-                xai.First().action();
             });
+
         }
 
         public void update()

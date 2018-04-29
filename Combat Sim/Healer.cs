@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Combat_Sim
 {
-    public class Healer : Iai
+    public class Healer
     {
         public string type;
         public float healrate;
@@ -16,11 +16,6 @@ namespace Combat_Sim
         {
             this.type = "Healer";
             this.healrate = 1.0f;
-        }
-
-        public void action()
-        {
-            
         }
 
         public void setOwner(Actor owner)

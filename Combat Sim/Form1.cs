@@ -146,14 +146,12 @@ namespace Combat_Sim
             for (var i = 0; i < numA; i++)
             {
                 Ateam.Add(new Actor("Reds #" + (i + 1).ToString()));
-                Ateam[i].addAI(new Basic());
                 Ateam[i].addRole(new Fighter(new Stat { HP = hpRed, power = powerRed, pos=pRed }));
             }
 
             for (var j = 0; j < numB; j++)
             {
                 Bteam.Add(new Actor("Blues #" + (j + 1).ToString()));
-                Bteam[j].addAI(new Basic());
                 Bteam[j].addRole(new Fighter(new Stat { HP = hpBlues, power = powerBlue, pos=pBlue }));
             }
 

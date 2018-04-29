@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace Combat_Sim
 {
 
-    public class Actor : ICloneable
+    public class Actor
     {
         public string name;
-        public List<Iai> aiList;
         public List<IRole> roleList;
         public Battlefield field;
         public int sideID;
@@ -19,7 +18,6 @@ namespace Combat_Sim
         public Actor(string name)
         {
             this.name = name;
-            this.aiList = new List<Iai>();
             this.roleList = new List<IRole>();
             observers = new List<IObservable>();
         }
@@ -56,20 +54,6 @@ namespace Combat_Sim
             role.setOwner(this);
         }            
 
-        public void addAI(Iai ai)
-        {
-            aiList.Add(ai);
-            ai.setOwner(this);
-        }
-
-        public void managerAI()
-        {
-            if(this.aiList.Count > 0)
-            {
-                aiList[0].action();
-            }
-        }
-
         public Object findRole<T>()
         {
             foreach(var o in this.roleList)
@@ -80,28 +64,6 @@ namespace Combat_Sim
                 }
             }
             return null;
-        }
-
-        public Object findAI<T>()
-        {
-            foreach(var o in this.aiList)
-            {
-                if(o is T)
-                {
-                    return o;
-                }
-            }
-            return null;
-        }
-
-        public object Clone()
-        {
-            Actor actor = new Actor(this.name);
-            actor.aiList = new List<Iai>(this.aiList);
-            actor.roleList = new List<IRole>(this.roleList);
-            actor.field = this.field;
-
-            return actor;
         }
     }
 }

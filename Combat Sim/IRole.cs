@@ -8,6 +8,7 @@ namespace Combat_Sim
 {
     public interface IRole
     {
+        void execute();
         void update();
         void setOwner(Actor owner);
     }

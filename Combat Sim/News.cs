@@ -95,16 +95,16 @@ namespace Combat_Sim
             if (o is Actor)
             {
                 Actor a_ = o as Actor;
-                Basic basic = a_.findAI<Basic>() as Basic;
+                Fighter fighter_ = a_.findRole<Fighter>() as Fighter;
 
-                if (basic.target != null) {
+                if (fighter_.target != null) {
                     history.Add(new History
                     {
                         turn = this.field.turn,
                         type = EVENT.ATTACK,
                         name = a_.name,
                         side = (Side)a_.sideID,
-                        news = "[" + (this.field.turn+1) + "] " + a_.name + " attacked " + basic.target.owner.name + "\r\n",
+                        news = "[" + (this.field.turn+1) + "] " + a_.name + " attacked " + fighter_.target.owner.name + "\r\n",
                     });
                 }
             }
