@@ -17,3 +17,4 @@ C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.Ge
 C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.csproj.CoreCompileInputs.cache
 C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.exe
 C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat Sim.pdb
+C:\Users\pjm21\source\repos\Combat Sim\Combat Sim\obj\Debug\Combat_Sim.Form2.resources

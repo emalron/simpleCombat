@@ -35,10 +35,14 @@ namespace Combat_Sim
     {
         Battlefield field;
         News news;
+        Form2 worldForm;
 
         public Form1()
         {
             InitializeComponent();
+
+            worldForm = new Form2();
+            worldForm.Show();
         }
 
         private void chartInit()
@@ -182,6 +186,14 @@ namespace Combat_Sim
             }
 
             richTextBox1.Text = "";
+
+            worldForm.makeEntities(field.sides);
+            worldForm.render();
+        }
+
+        void render()
+        {
+
         }
     }
 }
