@@ -15,6 +15,8 @@ namespace Combat_Sim
     {
         public float HP;
         public float power;
+        public float range;
+        public float moveRate;
         public float pos;
     }
 
@@ -34,6 +36,7 @@ namespace Combat_Sim
         public float moveRate;
         public float pos;
         public float newPos;
+        public float range;
 
         public Fighter(Stat stat)
         {
@@ -46,7 +49,8 @@ namespace Combat_Sim
             this.damTaken = 0;
             this.prevDamTaken = 0;
             this.defense = 0;
-            this.moveRate = 1;
+            this.moveRate = stat.moveRate;
+            this.range = stat.range;
         }
 
         public void setOwner(Actor owner)
@@ -107,7 +111,7 @@ namespace Combat_Sim
             float dist_ = Math.Abs(locTarget_ - locMe_);
 
             // Is the distacne smaller than my move rate?
-            if (dist_ <= this.moveRate)
+            if (dist_ <= this.range)
             {
                 return true;
             } 

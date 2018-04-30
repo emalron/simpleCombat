@@ -70,7 +70,7 @@ namespace Combat_Sim
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(field != null)
+            if (field != null)
             {
                 int State = (int)WarState.Engage;
 
@@ -87,11 +87,11 @@ namespace Combat_Sim
                     State = simulate(State);
                 }
                 */
-               
-                
+
+
                 broadcast();
             }
-       }
+        }
 
         int simulate(int state)
         {
@@ -126,7 +126,7 @@ namespace Combat_Sim
             richTextBox1.Font = new Font("Consolas", 10f, FontStyle.Regular);
 
             var output = from line in news.history
-                         where line.type == EVENT.DEAD || line.type == EVENT.MOVE
+                         where line.type == EVENT.DEAD || line.type == EVENT.MOVE || line.type == EVENT.ATTACK
                          select line;
 
             output.ToList();
@@ -158,8 +158,14 @@ namespace Combat_Sim
             int powerRed = (int)numPowerReds.Value;
             int powerBlue = (int)numPowerBlues.Value;
 
-            int pRed = 0;
-            int pBlue = 5;
+            int rateRed = (int)numSpeedReds.Value;
+            int rateBlue = (int)numSpeedBlues.Value;
+
+            int rangeRed = (int)numRangeReds.Value;
+            int rangeBlue = (int)numRangeBlues.Value;
+
+            int posRed = (int)numPosReds.Value;
+            int posBlue = (int)numPosBlues.Value;
 
             List<Actor> Ateam = new List<Actor>();
             List<Actor> Bteam = new List<Actor>();
@@ -167,13 +173,13 @@ namespace Combat_Sim
             for (var i = 0; i < numA; i++)
             {
                 Ateam.Add(new Actor("Reds #" + (i + 1).ToString()));
-                Ateam[i].addRole(new Fighter(new Stat { HP = hpRed, power = powerRed, pos=pRed }));
+                Ateam[i].addRole(new Fighter(new Stat { HP = hpRed, power = powerRed, pos=posRed, moveRate=rateRed, range=rangeRed }));
             }
 
             for (var j = 0; j < numB; j++)
             {
                 Bteam.Add(new Actor("Blues #" + (j + 1).ToString()));
-                Bteam[j].addRole(new Fighter(new Stat { HP = hpBlues, power = powerBlue, pos=pBlue }));
+                Bteam[j].addRole(new Fighter(new Stat { HP = hpBlues, power = powerBlue, pos=posBlue, moveRate=rateBlue, range=rangeBlue }));
             }
 
             field = new Battlefield(Ateam, Bteam);
@@ -187,13 +193,8 @@ namespace Combat_Sim
 
             richTextBox1.Text = "";
 
-            worldForm.makeEntities(field.sides);
-            worldForm.render();
-        }
-
-        void render()
-        {
-
+            // worldForm.makeEntities(field.sides);
+            // worldForm.render();
         }
     }
 }

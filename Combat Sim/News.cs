@@ -59,6 +59,7 @@ namespace Combat_Sim
                     onEventDead(o);
                     break;
                 case EVENT.ATTACK:
+                    onEventAttack(o);
                     break;
                 case EVENT.MOVE:
                     onEventMove(o);
